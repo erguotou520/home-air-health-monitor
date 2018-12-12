@@ -1,0 +1,8 @@
+[Unit]
+Description=Home air health monitor
+After=network.target
+[Service]
+Type=forking
+ExecStart=/usr/bin/python /home/pi/Desktop/pi/app.py
+[Install]
+WantedBy=multi-user.target

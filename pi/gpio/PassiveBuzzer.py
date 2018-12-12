@@ -14,6 +14,8 @@ class PassiveBuzzer(Gpio):
     self.pwm.start(0)
 
   def start (self):
+    self.running = True
+    print('true')
     while self.running:
       for dc in range(0, 101, 5):
         self.pwm.ChangeDutyCycle(dc)
@@ -23,4 +25,5 @@ class PassiveBuzzer(Gpio):
         time.sleep(0.05)
 
   def stop (self):
+    print('false')
     self.running = False
