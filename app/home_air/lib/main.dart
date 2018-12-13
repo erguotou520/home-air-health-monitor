@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'model.dart';
 import 'statistics.dart';
 import 'local.dart';
+import 'request.dart';
 
 void main() => runApp(MyApp());
 
@@ -46,6 +47,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool _useLocalData = false;
   String _input = '';
+
   final _data = <DataModel>[
     new DataModel('formaldehyde', '甲醛', 'ppm', 0.10, 0.4, 0.06, 0.08),
     new DataModel('pm25', 'PM2.5', 'ug/m3', 125, 254, 89, 110),
@@ -186,6 +188,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    getData();
     printIps();
     return Scaffold(
       appBar: AppBar(
