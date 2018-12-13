@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'model.dart';
 import 'statistics.dart';
-import 'local.dart';
+// import 'local.dart';
 import 'request.dart';
 
 void main() => runApp(MyApp());
@@ -188,8 +188,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    getData();
-    printIps();
+    http.getData();
+    // printIps();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),

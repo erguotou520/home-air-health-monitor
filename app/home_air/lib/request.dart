@@ -1,36 +1,50 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-// import 'package:convert/convert.dart';
-// import 'package:crypto/crypto.dart';
 import 'config.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart' as crypto;
 
-Options options = new Options(
-  baseUrl: 'https://' + APP_ID.substring(0, 8) + 'api.lncld.net/1.1/classes/',
-  contentType: ContentType.json
-);
-Dio dio = new Dio(options);
-dio.interceptor.request.onSend = (Options options) {
-  options.headers['X-LC-Id'] = APP_ID;
-  options.headers['X-LC-Sign'] = sign();
-  return options;
-};
+class _Http {
+  static Options options = new Options(
+    baseUrl: 'https://' + APP_ID.substring(0, 8) + '.api.lncldapi.com/1.1/classes/',
+    contentType: ContentType.json
+  );
+  Dio instance;
+  _Http() {
+    instance = new Dio(options);
+    instance.interceptor.request.onSend = (Options options) {
+      options.headers['X-LC-Id'] = APP_ID;
+      options.headers['X-LC-Sign'] = sign();
+      print(options.baseUrl);
+      print(options.path);
+      print(options.headers['X-LC-Id']);
+      print(options.headers['X-LC-Sign']);
+      print(options.contentType);
+      return options;
+    };
+  }
 
-//Generate MD5 hash
-String generateMd5(String data) {
-  // var content = new Utf8Encoder().convert(data);
-  // var digest = md5.convert(content);
-  // // 这里其实就是 digest.toString()
-  // return hex.encode(digest.bytes);
-  return '';
+  //Generate MD5 hash
+  static String generateMd5(String data) {
+    var content = new Utf8Encoder().convert(data);
+    var digest = crypto.md5.convert(content);
+    return digest.toString();
+  }
+
+  static String sign() {
+    String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
+    String sign = generateMd5(timestamp + APP_KEY);
+    return sign + ',' + timestamp;
+  }
+
+  void getData() async {
+    try {
+      Response resp = await instance.get('Daily');
+      print(resp);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
 
-String sign() {
-  String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
-  String sign = generateMd5(timestamp + APP_KEY);
-  return sign + ',' + timestamp;
-}
-
-void getData() async {
-  Response resp = await dio.get('daily');
-  print(resp.data);
-}
+final _Http http = _Http();
