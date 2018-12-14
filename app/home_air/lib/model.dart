@@ -14,6 +14,23 @@ class Daily {
   factory Daily.fromJson(Map<String, dynamic> json) => _$DailyFromJson(json);
 
   Map<String, dynamic> toJson() => _$DailyToJson(this);
+
+  @override
+  String toString() {
+    return "formaldehyde=${this.formaldehyde} pm25=${this.pm25} temperature=${this.temperature} humidity=${this.humidity}";
+  }
+}
+
+@JsonSerializable()
+class DailyList {
+  @JsonKey(nullable: false)
+  List<Daily> results;
+
+  DailyList(this.results);
+
+  factory DailyList.fromJson(Map<String, dynamic> json) => _$DailyListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DailyListToJson(this);
 }
 
 class DataModel {

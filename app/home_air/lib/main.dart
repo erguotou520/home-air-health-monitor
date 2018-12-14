@@ -188,7 +188,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    http.getData();
+    http.getData({ 'limit': 1, 'order': '-createdAt' }).then((value) {
+      final latest = value.results[0];
+      setState(() {
+        _data[0].value = latest.formaldehyde;
+        _data[1].value = latest.pm25;
+        _data[2].value = latest.temperature;
+        _data[3].value = latest.humidity;
+      });
+    });
     // printIps();
     return Scaffold(
       appBar: AppBar(

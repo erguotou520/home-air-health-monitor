@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'config.dart';
 import 'dart:convert';
+import 'model.dart';
 import 'package:crypto/crypto.dart' as crypto;
 
 class _Http {
@@ -15,11 +16,6 @@ class _Http {
     instance.interceptor.request.onSend = (Options options) {
       options.headers['X-LC-Id'] = APP_ID;
       options.headers['X-LC-Sign'] = sign();
-      print(options.baseUrl);
-      print(options.path);
-      print(options.headers['X-LC-Id']);
-      print(options.headers['X-LC-Sign']);
-      print(options.contentType);
       return options;
     };
   }
@@ -37,12 +33,13 @@ class _Http {
     return sign + ',' + timestamp;
   }
 
-  void getData() async {
+  Future<DailyList> getData([Map query]) async {
     try {
-      Response resp = await instance.get('Daily');
-      print(resp);
-    } catch (e) {
+      Response resp = await instance.get('Daily', data: query);
+      return DailyList.fromJson(resp.data);
+    } on DioError catch (e) {
       print(e);
+      return new DailyList([]);
     }
   }
 }

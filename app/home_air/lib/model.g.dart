@@ -20,3 +20,12 @@ Map<String, dynamic> _$DailyToJson(Daily instance) => <String, dynamic>{
       'temperature': instance.temperature,
       'humidity': instance.humidity
     };
+
+DailyList _$DailyListFromJson(Map<String, dynamic> json) {
+  return DailyList((json['results'] as List)
+      .map((e) => Daily.fromJson(e as Map<String, dynamic>))
+      .toList());
+}
+
+Map<String, dynamic> _$DailyListToJson(DailyList instance) =>
+    <String, dynamic>{'results': instance.results};
