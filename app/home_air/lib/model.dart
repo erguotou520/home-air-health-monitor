@@ -42,13 +42,15 @@ class DataModel {
   double average;
   double max;
 
-  DataModel(String enName, String zhName, String unit, double value, double min, double average, double max) {
-    this.enName = enName;
-    this.zhName = zhName;
-    this.unit = unit;
-    this.value = value;
-    this.min = min;
-    this.average = average;
-    this.max = max;
+  DataModel(this.enName, this.zhName, this.unit, this.value, this.min, this.average, this.max);
+
+  static List<DataModel> generateList() {
+    return <DataModel>[
+      new DataModel('formaldehyde', '甲醛', 'ppm', 0, 0, 0, 0),
+      new DataModel('pm25', 'PM2.5', 'ug/m3',  0, 0, 0, 0),
+      new DataModel('temperature', '温度', '度',  0, 0, 0, 0),
+      new DataModel('humidity', '湿度', '%',  0, 0, 0, 0),
+    ];
   }
 }
+

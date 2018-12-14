@@ -48,12 +48,7 @@ class _HomePageState extends State<HomePage> {
   bool _useLocalData = false;
   String _input = '';
 
-  final _data = <DataModel>[
-    new DataModel('formaldehyde', '甲醛', 'ppm', 0.10, 0.4, 0.06, 0.08),
-    new DataModel('pm25', 'PM2.5', 'ug/m3', 125, 254, 89, 110),
-    new DataModel('temperature', '温度', '度', 15.2, 18.3, 10.0, 11.2),
-    new DataModel('humidity', '湿度', '%', 75, 68, 85, 77),
-  ];
+  var _data = DataModel.generateList();
 
   TextStyle _getFont1() {
     return new TextStyle(fontSize: 14, color: Colors.black26);
@@ -188,13 +183,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    http.getData({ 'limit': 1, 'order': '-createdAt' }).then((value) {
-      final latest = value.results[0];
+    http.getTodayData().then((value) {
       setState(() {
-        _data[0].value = latest.formaldehyde;
-        _data[1].value = latest.pm25;
-        _data[2].value = latest.temperature;
-        _data[3].value = latest.humidity;
+        _data = value;
       });
     });
     // printIps();
