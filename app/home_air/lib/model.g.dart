@@ -11,14 +11,17 @@ Daily _$DailyFromJson(Map<String, dynamic> json) {
       (json['formaldehyde'] as num)?.toDouble(),
       (json['pm25'] as num)?.toDouble(),
       (json['temperature'] as num)?.toDouble(),
-      (json['humidity'] as num)?.toDouble());
+      (json['humidity'] as num)?.toDouble(),
+      DateTime.parse(json['createdAt'])
+  );
 }
 
 Map<String, dynamic> _$DailyToJson(Daily instance) => <String, dynamic>{
       'formaldehyde': instance.formaldehyde,
       'pm25': instance.pm25,
       'temperature': instance.temperature,
-      'humidity': instance.humidity
+      'humidity': instance.humidity,
+      'createdAt': instance.createdAt.toString()
     };
 
 DailyList _$DailyListFromJson(Map<String, dynamic> json) {

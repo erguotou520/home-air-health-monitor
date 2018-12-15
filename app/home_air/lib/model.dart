@@ -8,8 +8,9 @@ class Daily {
   double pm25;
   double temperature;
   double humidity;
+  DateTime createdAt;
 
-  Daily(this.formaldehyde, this.pm25, this.temperature, this.humidity);
+  Daily(this.formaldehyde, this.pm25, this.temperature, this.humidity, this.createdAt);
 
   factory Daily.fromJson(Map<String, dynamic> json) => _$DailyFromJson(json);
 
@@ -54,3 +55,8 @@ class DataModel {
   }
 }
 
+class HomeData {
+  List<DataModel> values;
+  String latest;
+  HomeData(this.values, this.latest);
+}

@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   bool _useLocalData = false;
   String _input = '';
 
-  var _data = DataModel.generateList();
+  HomeData _data = new HomeData(DataModel.generateList(), '');
 
   TextStyle _getFont1() {
     return new TextStyle(fontSize: 14, color: Colors.black26);
@@ -139,16 +139,16 @@ class _HomePageState extends State<HomePage> {
         mainAxisSpacing: 24.0,
         crossAxisCount: 2,
         children: <Widget>[
-          _generateDispalyCard(_data[0], levelColors[0]),
-          _generateDispalyCard(_data[1], levelColors[0]),
-          _generateDispalyCard(_data[2], levelColors[0]),
-          _generateDispalyCard(_data[3], levelColors[0]),
+          _generateDispalyCard(_data.values[0], levelColors[0]),
+          _generateDispalyCard(_data.values[1], levelColors[0]),
+          _generateDispalyCard(_data.values[2], levelColors[0]),
+          _generateDispalyCard(_data.values[3], levelColors[0]),
         ],
       ),
       new Container(
         alignment: Alignment.centerLeft,
         margin: EdgeInsets.fromLTRB(0, 12, 0, 4),
-        child: new Text('注：最新数据采集于 2018.12.21', style: new TextStyle(color: Colors.grey[400]),),
+        child: new Text('注：最新数据采集于 ${_data.latest}', style: new TextStyle(color: Colors.grey[400]),),
       ),
       new Divider(),
       new Row(
@@ -182,12 +182,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     http.getTodayData().then((value) {
       setState(() {
         _data = value;
       });
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // printIps();
     return Scaffold(
       appBar: AppBar(
