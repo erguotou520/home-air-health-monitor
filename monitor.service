@@ -2,7 +2,9 @@
 Description=Home air health monitor
 After=network.target
 [Service]
+Environment="PYTHON_ENV=production"
 Type=forking
+User=pi
 ExecStart=/usr/bin/python /home/pi/Desktop/pi/app.py
 [Install]
 WantedBy=multi-user.target

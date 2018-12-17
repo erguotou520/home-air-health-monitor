@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   bool _useLocalData = false;
   String _input = '';
 
-  HomeData _data = new HomeData(DataModel.generateList(), '');
+  AirHealth _data = AirHealth.fromEmpty();
 
   TextStyle _getFont1() {
     return new TextStyle(fontSize: 14, color: Colors.black26);
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     return new TextStyle(fontSize: 14, color: Colors.black38);
   }
 
-  Widget _generateDispalyCard(DataModel model, Color cardBg) {
+  Widget _generateDispalyCard(String field, String name, String unit, AirHealth data, Color cardBg) {
     return new Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -74,10 +74,10 @@ class _HomePageState extends State<HomePage> {
                 new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Text(model.zhName, style: new TextStyle(
+                    new Text(name, style: new TextStyle(
                       fontSize: 16, color: Colors.black54
                     ),),
-                    new Text(model.unit, style: new TextStyle(
+                    new Text(unit, style: new TextStyle(
                       fontSize: 16, color: Colors.black38
                     ),),
                   ],
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      new Text(model.value.toString(), style: new TextStyle(
+                      new Text(data.humidity.toString(), style: new TextStyle(
                         fontSize: 36, fontWeight: FontWeight.w500, color: Colors.white
                       ),)
                     ]
@@ -106,19 +106,19 @@ class _HomePageState extends State<HomePage> {
                 new Column(
                   children: <Widget>[
                     new Text('最大', style: _getFont1()),
-                    new Text(model.max.toString(), style: _getFont2()),
+                    new Text(data.humidity_max.toString(), style: _getFont2()),
                   ],
                 ),
                 new Column(
                   children: <Widget>[
                     new Text('平均', style: _getFont1()),
-                    new Text(model.average.toString(), style: _getFont2()),
+                    new Text(data.humidity_avg.toString(), style: _getFont2()),
                   ],
                 ),
                 new Column(
                   children: <Widget>[
                     new Text('最小', style: _getFont1()),
-                    new Text(model.min.toString(), style: _getFont2()),
+                    new Text(data.humidity_min.toString(), style: _getFont2()),
                   ],
                 ),
               ]
@@ -139,16 +139,16 @@ class _HomePageState extends State<HomePage> {
         mainAxisSpacing: 24.0,
         crossAxisCount: 2,
         children: <Widget>[
-          _generateDispalyCard(_data.values[0], levelColors[0]),
-          _generateDispalyCard(_data.values[1], levelColors[0]),
-          _generateDispalyCard(_data.values[2], levelColors[0]),
-          _generateDispalyCard(_data.values[3], levelColors[0]),
+          _generateDispalyCard('formaldehyde', '甲醛', 'ppm', _data, levelColors[0]),
+          _generateDispalyCard('pm25', 'PM2.5', 'ug/m3', _data, levelColors[0]),
+          _generateDispalyCard('temperature', '温度', '度', _data, levelColors[0]),
+          _generateDispalyCard('humidity', '湿度', '%', _data, levelColors[0]),
         ],
       ),
       new Container(
         alignment: Alignment.centerLeft,
         margin: EdgeInsets.fromLTRB(0, 12, 0, 4),
-        child: new Text('注：最新数据采集于 ${_data.latest}', style: new TextStyle(color: Colors.grey[400]),),
+        child: new Text('注：最新数据采集于 ${_data.latest_time}', style: new TextStyle(color: Colors.grey[400]),),
       ),
       new Divider(),
       new Row(

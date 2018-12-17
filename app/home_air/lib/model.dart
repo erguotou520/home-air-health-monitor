@@ -3,60 +3,38 @@ import 'package:json_annotation/json_annotation.dart';
 part 'model.g.dart';
 
 @JsonSerializable()
-class Daily {
+class AirHealth {
   double formaldehyde;
+  double formaldehyde_min;
+  double formaldehyde_avg;
+  double formaldehyde_max;
   double pm25;
+  double pm25_min;
+  double pm25_avg;
+  double pm25_max;
   double temperature;
+  double temperature_min;
+  double temperature_avg;
+  double temperature_max;
   double humidity;
-  DateTime createdAt;
+  double humidity_min;
+  double humidity_avg;
+  double humidity_max;
+  DateTime latest_time;
 
-  Daily(this.formaldehyde, this.pm25, this.temperature, this.humidity, this.createdAt);
+  AirHealth(
+    this.formaldehyde, this.formaldehyde_min, this.formaldehyde_avg, this.formaldehyde_max,
+    this.pm25, this.pm25_min, this.pm25_avg, this.pm25_max,
+    this.temperature, this.temperature_min, this.temperature_avg, this.temperature_max,
+    this.humidity, this.humidity_min, this.humidity_avg, this.humidity_max,
+    this.latest_time
+  );
 
-  factory Daily.fromJson(Map<String, dynamic> json) => _$DailyFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DailyToJson(this);
-
-  @override
-  String toString() {
-    return "formaldehyde=${this.formaldehyde} pm25=${this.pm25} temperature=${this.temperature} humidity=${this.humidity}";
+  factory AirHealth.fromEmpty() {
+    return new AirHealth(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   }
-}
 
-@JsonSerializable()
-class DailyList {
-  @JsonKey(nullable: false)
-  List<Daily> results;
+  factory AirHealth.fromJson(Map<String, dynamic> json) => _$AirHealthFromJson(json);
 
-  DailyList(this.results);
-
-  factory DailyList.fromJson(Map<String, dynamic> json) => _$DailyListFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DailyListToJson(this);
-}
-
-class DataModel {
-  String enName;
-  String zhName;
-  String unit;
-  double value;
-  double min;
-  double average;
-  double max;
-
-  DataModel(this.enName, this.zhName, this.unit, this.value, this.min, this.average, this.max);
-
-  static List<DataModel> generateList() {
-    return <DataModel>[
-      new DataModel('formaldehyde', '甲醛', 'ppm', 0, 0, 0, 0),
-      new DataModel('pm25', 'PM2.5', 'ug/m3',  0, 0, 0, 0),
-      new DataModel('temperature', '温度', '度',  0, 0, 0, 0),
-      new DataModel('humidity', '湿度', '%',  0, 0, 0, 0),
-    ];
-  }
-}
-
-class HomeData {
-  List<DataModel> values;
-  String latest;
-  HomeData(this.values, this.latest);
+  Map<String, dynamic> toJson() => _$AirHealthToJson(this);
 }

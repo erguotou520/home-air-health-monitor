@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*
+import os
 import signal
 import atexit
+from subprocess import call
 from flask import Flask, jsonify, Response
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers import SchedulerNotRunningError
@@ -22,10 +24,10 @@ atexit.register(shutdown)
 
 # scheduler
 sched = BackgroundScheduler()
-# sched.add_job(read_all_data, 'cron', minute=0)
-# sched.add_job(read_all_data, 'cron', minute=15)
-# sched.add_job(read_all_data, 'cron', minute=30)
-# sched.add_job(read_all_data, 'cron', minute=45)
+sched.add_job(read_all_data, 'cron', minute=0)
+sched.add_job(read_all_data, 'cron', minute=15)
+sched.add_job(read_all_data, 'cron', minute=30)
+sched.add_job(read_all_data, 'cron', minute=45)
 
 app = Flask(__name__)
 
@@ -39,6 +41,14 @@ def home():
 def get_data():
   data = read_all_data_onetime()
   return jsonify(data)
+
+@app.route('/halt', methods = ['POST'])
+def shutdown():
+  call('sudo halt', shell = True)
+
+@app.route('/reboot', methods = ['POST'])
+def reboot():
+  call('sudo reboot', shell = True)
 
 if __name__ == '__main__':
   sched.start()
