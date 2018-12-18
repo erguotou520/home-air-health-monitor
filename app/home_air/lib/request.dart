@@ -5,16 +5,26 @@ import 'dart:convert';
 import 'model.dart';
 import 'package:crypto/crypto.dart' as crypto;
 
-final API_URL = 'https://${APP_ID.substring(0, 8)}.api.lncldapi.com/1.1/classes/';
+final apiUrl = 'https://${APP_ID.substring(0, 8)}.api.lncldapi.com/1.1/classes/';
 final engineUrl = 'https://${APP_ID.substring(0, 8)}.engine.lncldapi.com/1.1/functions/';
 class _Http {
-  static Options options = new Options(
-    contentType: ContentType.json
-  );
-  Dio instance;
+  Dio api;
+  Dio engine;
   _Http() {
-    instance = new Dio(options);
-    instance.interceptor.request.onSend = (Options options) {
+    api = new Dio(new Options(
+      contentType: ContentType.json,
+      baseUrl: apiUrl
+    ));
+    api.interceptor.request.onSend = (Options options) {
+      options.headers['X-LC-Id'] = APP_ID;
+      options.headers['X-LC-Sign'] = sign();
+      return options;
+    };
+    engine = new Dio(new Options(
+      contentType: ContentType.json,
+      baseUrl: engineUrl
+    ));
+    engine.interceptor.request.onSend = (Options options) {
       options.headers['X-LC-Id'] = APP_ID;
       options.headers['X-LC-Sign'] = sign();
       return options;
@@ -36,10 +46,9 @@ class _Http {
 
   Future<AirHealth> getTodayData() async {
     try {
-      Response resp = await instance.get('Daily',
-        options: new Options( baseUrl: engineUrl )
-      );
-      return AirHealth.fromJson(resp.data);
+      Response resp = await engine.get('todayData');
+      Map result = resp.data['result'];
+      return AirHealth.fromJson(result);
     } catch (e) {
       print(e);
       return new AirHealth.fromEmpty();

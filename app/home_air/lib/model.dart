@@ -31,7 +31,7 @@ class AirHealth {
   );
 
   factory AirHealth.fromEmpty() {
-    return new AirHealth(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return new AirHealth(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
   }
 
   factory AirHealth.fromJson(Map<String, dynamic> json) => _$AirHealthFromJson(json);

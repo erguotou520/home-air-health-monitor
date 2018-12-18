@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _generateDispalyCard(String field, String name, String unit, AirHealth data, Color cardBg) {
+    Map map = data.toJson();
     return new Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      new Text(data.humidity.toString(), style: new TextStyle(
+                      new Text(map[field].toString(), style: new TextStyle(
                         fontSize: 36, fontWeight: FontWeight.w500, color: Colors.white
                       ),)
                     ]
@@ -106,19 +107,19 @@ class _HomePageState extends State<HomePage> {
                 new Column(
                   children: <Widget>[
                     new Text('最大', style: _getFont1()),
-                    new Text(data.humidity_max.toString(), style: _getFont2()),
+                    new Text(map['${field}_max'].toString(), style: _getFont2()),
                   ],
                 ),
                 new Column(
                   children: <Widget>[
                     new Text('平均', style: _getFont1()),
-                    new Text(data.humidity_avg.toString(), style: _getFont2()),
+                    new Text(map['${field}_avg'].toString(), style: _getFont2()),
                   ],
                 ),
                 new Column(
                   children: <Widget>[
                     new Text('最小', style: _getFont1()),
-                    new Text(data.humidity_min.toString(), style: _getFont2()),
+                    new Text(map['${field}_min'].toString(), style: _getFont2()),
                   ],
                 ),
               ]
@@ -148,7 +149,7 @@ class _HomePageState extends State<HomePage> {
       new Container(
         alignment: Alignment.centerLeft,
         margin: EdgeInsets.fromLTRB(0, 12, 0, 4),
-        child: new Text('注：最新数据采集于 ${_data.latest_time}', style: new TextStyle(color: Colors.grey[400]),),
+        child: new Text('注：最新数据采集于 ${_data.latest_time.toLocal()}', style: new TextStyle(color: Colors.grey[400]),),
       ),
       new Divider(),
       new Row(

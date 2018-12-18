@@ -1,10 +1,14 @@
 [Unit]
 Description=Home air health monitor
-After=network.target
+After=network.target,syslog.target
 [Service]
-Environment="PYTHON_ENV=production"
-Type=forking
 User=pi
-ExecStart=/usr/bin/python /home/pi/Desktop/pi/app.py
+ExecStart=/usr/local/bin/uwsgi --ini /home/pi/Desktop/pi/uwsgi.ini
+RuntimeDirectory=uwsgi
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+Restart=always
 [Install]
 WantedBy=multi-user.target
