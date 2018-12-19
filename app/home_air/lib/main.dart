@@ -146,11 +146,6 @@ class _HomePageState extends State<HomePage> {
           _generateDispalyCard('humidity', '湿度', '%', _data, levelColors[0]),
         ],
       ),
-      new Container(
-        alignment: Alignment.centerLeft,
-        margin: EdgeInsets.fromLTRB(0, 12, 0, 4),
-        child: new Text('注：最新数据采集于 ${_data.latest_time.toLocal()}', style: new TextStyle(color: Colors.grey[400]),),
-      ),
       new Divider(),
       new Row(
         children: <Widget>[
@@ -166,6 +161,15 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     ];
+    if (_data.latest_time != null) {
+      _ret.insert(1,
+        new Container(
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.fromLTRB(0, 12, 0, 4),
+          child: new Text('注：最新数据采集于 ${_data.latest_time.toLocal()}', style: new TextStyle(color: Colors.grey[400]),),
+        )
+      );
+    }
     if (_useLocalData) {
       _ret.add(
         new TextField(
