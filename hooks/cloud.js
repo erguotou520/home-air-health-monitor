@@ -66,12 +66,12 @@ AV.Cloud.afterSave('tarData', function () {
           tar.set(_minKey, _min ? Math.min(_data, _min) : _data);
           tar.set(_maxKey, _max ? Math.max(_data, _max) : _data);
         });
-        data.destroy();
       });
+      AV.Object.destroyAll(results).catch(console.error)
       keys.forEach(key => {
           var _avgKey = `${key}_avg`;
           tar.set(_avgKey, Math.round(1000 * tar.get(_avgKey) / results.length) / 1000);
       });
       return tar.save();
-  }).catch(e => console.error(e));
+  }).then(() => {}).catch(e => console.error(e));
 });
